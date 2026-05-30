@@ -1,0 +1,29 @@
+{
+  "pipelineId": "bash-ai-parallel-exec",
+  "agents": [
+    {
+      "id": "agent-01",
+      "name": "Initial Splitter",
+      "type": "orchestrator",
+      "next": ["agent-02a", "agent-02b"] 
+    },
+    {
+      "id": "agent-02a",
+      "name": "Parallel Bash Task A",
+      "type": "bash-runner",
+      "next": ["agent-03"]
+    },
+    {
+      "id": "agent-02b",
+      "name": "Parallel Bash Task B",
+      "type": "bash-runner",
+      "next": ["agent-03"]
+    },
+    {
+      "id": "agent-03",
+      "name": "Final Aggregator",
+      "type": "summarizer",
+      "next": []
+    }
+  ]
+}
