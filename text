@@ -1,0 +1,12 @@
+🚀 Starting Execution Pipeline: bash-ai-parallel-exec
+---
+[▶️ START] Executing: Initial Splitter (agent-01)
+[✅ DONE] Finished: Initial Splitter (agent-01)
+[▶️ START] Executing: Parallel Bash Task A (agent-02a)
+[▶️ START] Executing: Parallel Bash Task B (agent-02b)
+[✅ DONE] Finished: Parallel Bash Task A (agent-02a)  <-- (Finishes first, but aggregator waits!)
+[✅ DONE] Finished: Parallel Bash Task B (agent-02b)  <-- (Finishes second, unlocking the join node)
+[▶️ START] Executing: Final Aggregator (agent-03)
+[✅ DONE] Finished: Final Aggregator (agent-03)
+---
+🎉 Pipeline Execution Completed Successfully.
