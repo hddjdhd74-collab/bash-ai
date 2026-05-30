@@ -1,91 +1,96 @@
 # bash-ai
+# 🤖 bash-ai
 
-## Overview
+A visual, high-performance execution pipeline dashboard for orchestrating autonomous AI Agents. This project combines a low-overhead structural backend with an interactive frontend builder to design, run, and benchmark agentic workflows.
 
-This project is a modern web application designed to provide an intuitive and efficient user experience. It focuses on performance, usability, and scalability while delivering a clean and responsive interface.
+🚀 **Live Preview:** [Explore the Interactive Agent Dashboard](https://id-preview--3c7726c8-4e08-47a9-af29-ff6fc55c880d.lovable.app/#agents)
 
-## Features
+---
 
-* Responsive design for desktop and mobile devices
-* Modern and intuitive user interface
-* Fast and reliable performance
-* Secure authentication and user management
-* Scalable architecture
-* Easy deployment and maintenance
+## ⚡ Key Features
 
-## Technologies Used
+* **Visual Pipeline Builder:** Full interactive canvas to sequence multi-agent tasks.
+* **JSON-Driven Configurations:** Rapid structural definitions for execution dependencies.
+* **Step-by-Step Tracing:** Live execution observability logs for real-time debugging.
+* **Optimized Architecture:** Low latency, highly responsive pipeline updates built via Lovable.
 
-* Frontend: Modern JavaScript framework
-* Backend: API-driven architecture
-* Database: Secure data storage solution
-* Hosting: Cloud-based deployment platform
+---
 
-## Installation
+## 📂 Project Structure
+
+```text
+├── .lovable/                 # Lovable platform sandbox meta configuration
+├── src/                      # Frontend components and agent layouts
+│   ├── components/           # Reusable UI widgets and pipeline canvas nodes
+│   └── pages/                # Main view router containing /#agents layout
+├── public/                   # Static application assets
+├── execution-pipeline.json   # Pipeline runtime schema definition
+└── README.md                 # Project documentation
+```
+
+---
+
+## 🛠️ Getting Started
 
 ### Prerequisites
 
-Before starting, ensure you have:
+Ensure you have the following environments configured locally:
+* **Node.js** (v18 or higher)
+* **npm** or **bun** packet manager
 
-* Node.js installed
-* Package manager (npm or equivalent)
-* Access to required environment variables
+### Setup and Installation
 
-### Setup
+Follow these steps to run the execution pipeline locally:
 
-1. Clone the repository.
-2. Install project dependencies.
-3. Configure environment variables.
-4. Start the development server.
+```bash
+# 1. Clone the repository
+git clone https://github.com
 
-## Usage
+# 2. Navigate to the workspace directory
+cd bash-ai
 
-After setup, launch the application and access it through your browser. Follow the on-screen instructions to explore available features and functionality.
+# 3. Install required node modules
+npm install
 
-## Project Structure
+# 4. Launch the local development preview server
+npm run dev
+```
 
-* `/src` – Application source code
-* `/components` – Reusable UI components
-* `/pages` – Application pages and routes
-* `/assets` – Images and static resources
-* `/config` – Configuration files
+---
 
-## Configuration
+## ⚙️ Configuration Pipeline
 
-Environment variables may be required for:
+Agent nodes and workflow sequencing rules are loaded through standard JSON configurations. Customize your execution tasks by editing your pipeline schema:
 
-* API connections
-* Authentication services
-* Database access
-* Third-party integrations
+```json
+{
+  "pipelineId": "bash-ai-default-exec",
+  "version": "1.0.0",
+  "agents": [
+    {
+      "id": "agent-01",
+      "name": "Task Analyzer",
+      "type": "orchestrator",
+      "next": ["agent-02"]
+    },
+    {
+      "id": "agent-02",
+      "name": "Code Executor",
+      "type": "bash-runner",
+      "next": []
+    }
+  ]
+}
+```
 
-Refer to the project configuration files for specific requirements.
+---
 
-## Development
+## 🤝 Contributing
 
-To contribute or modify the project:
+Contributions are welcome! Please submit a Pull Request or open an Issue to request new agent schemas, node designs, or engine integrations.
 
-1. Create a new branch.
-2. Implement changes.
-3. Test functionality thoroughly.
-4. Submit a pull request for review.
+---
 
-## Deployment
+## 📄 License
 
-The application can be deployed using supported cloud hosting providers. Ensure all environment variables and production settings are configured before deployment.
-
-## Contributing
-
-Contributions are welcome. Please:
-
-1. Fork the repository.
-2. Create a feature branch.
-3. Commit your changes.
-4. Open a pull request with a clear description.
-
-## License
-
-This project is licensed under the MIT License unless otherwise specified.
-
-## Support
-
-For bug reports, feature requests, or questions, please open an issue in the repository.
+This project is open-source software licensed under the **MIT License**.
