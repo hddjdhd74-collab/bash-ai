@@ -52,3 +52,11 @@
     "enableLogging": true
   }
 }
+{
+  "pipelineId": "system-diagnostics-run",
+  "agents": [
+    { "id": "agent-01", "name": "Directory Scanner", "type": "bash-runner", "command": "ls", "args": ["-la"], "next": ["agent-03"] },
+    { "id": "agent-02", "name": "Network Auditor", "type": "bash-runner", "command": "netstat", "args": ["-an"], "next": ["agent-03"] },
+    { "id": "agent-03", "name": "Pipeline Aggregator", "type": "summarizer", "command": "echo", "args": ["All system metrics captured."], "next": [] }
+  ]
+}
