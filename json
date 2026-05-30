@@ -1,0 +1,54 @@
+{
+  "agents": [
+    {
+      "id": "ag_01",
+      "name": "Customer Support Agent",
+      "role": "Support Specialist",
+      "description": "Handles general inquiries, billing questions, and basic troubleshooting.",
+      "status": "active",
+      "avatarUrl": "https://dicebear.com",
+      "capabilities": [
+        "Refund processing",
+        "Account activation",
+        "Ticket routing"
+      ],
+      "prompt": "You are an empathetic, efficient support specialist. Keep answers concise and polite.",
+      "temperature": 0.3
+    },
+    {
+      "id": "ag_02",
+      "name": "Technical Triage Specialist",
+      "role": "Level 2 Tech Support",
+      "description": "Diagnoses API errors, system downtime, and complex software integration issues.",
+      "status": "active",
+      "avatarUrl": "https://dicebear.com",
+      "capabilities": [
+        "Log analysis",
+        "Webhook debugging",
+        "Database querying"
+      ],
+      "prompt": "You are a precise technical engineer. Analyze logs carefully and provide structured debugging steps.",
+      "temperature": 0.1
+    },
+    {
+      "id": "ag_03",
+      "name": "Lead Generation Assistant",
+      "role": "Sales Development Representative",
+      "description": "Qualifies incoming leads and books demonstration meetings for the sales team.",
+      "status": "idle",
+      "avatarUrl": "https://dicebear.com",
+      "capabilities": [
+        "Cal.com integration",
+        "HubSpot sync",
+        "Email follow-up automated workflows"
+      ],
+      "prompt": "You are a high-energy sales representative. Persuade prospects gently to book a discovery call.",
+      "temperature": 0.7
+    }
+  ],
+  "settings": {
+    "defaultModel": "gpt-4o",
+    "fallbackAgentId": "ag_01",
+    "enableLogging": true
+  }
+}
