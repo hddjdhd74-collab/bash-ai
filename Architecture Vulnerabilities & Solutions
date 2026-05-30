@@ -1,0 +1,5 @@
+UI Dashboard Layer]  ──(Updates State)──►  [execution-pipeline.json]
+                                                        │
+                                          🚫 VULNERABILITY: Raw Token Execution
+                                                        ▼
+                                            [Host System CLI / Bash]
