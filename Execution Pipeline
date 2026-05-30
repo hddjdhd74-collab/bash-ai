@@ -1,0 +1,3 @@
+[User Prompt] ➔ [Bash Script (Gathers OS/Path Context)] ➔ [curl API Payload] 
+                                                                 │
+ [Terminal Execution] 🔀 [User Approves/Edits] 🗜️ [jq JSON Parsing] 🠄 📄 [LLM Endpoint]
