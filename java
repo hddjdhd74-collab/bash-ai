@@ -84,3 +84,110 @@ async function runParallelPipeline(pipeline) {
 
 // Run the script
 runParallelPipeline(pipelineData);
+const express = require('express');
+const { execFile } = require('child_process');
+
+const app = express();
+app.use(express.json());
+
+// Enable CORS so your Lovable frontend dashboard can reach this endpoint
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+// 1. Safe Terminal Command Runner
+function executeBashCommand(agentName, commandFile, commandArgs = []) {
+  return new Promise((resolve) => {
+    console.log(`[🔨 SPAWN] ${agentName} running: ${commandFile} ${commandArgs.join(' ')}`);
+    
+    // execFile runs binary/script targets within an isolated parameters scope
+    execFile(commandFile, commandArgs, { timeout: 10000 }, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`[❌ ERROR] ${agentName} failed:`, error.message);
+        return resolve({ status: "failed", output: stderr || error.message });
+      }
+      
+      console.log(`[✅ DONE] ${agentName} completed.`);
+      return resolve({ status: "success", output: stdout.trim() });
+    });
+  });
+}
+
+// 2. Core Concurrent Graph Processing Engine
+async function runEngine(pipeline) {
+  const agentsMap = new Map(pipeline.agents.map(a => [a.id, a]));
+  const executionLogs = {};
+  const remainingDependencies = {};
+
+  // Setup graph node incoming trackers
+  pipeline.agents.forEach(agent => { remainingDependencies[agent.id] = 0; });
+  pipeline.agents.forEach(agent => {
+    agent.next.forEach(nextId => {
+      if (remainingDependencies[nextId] !== undefined) remainingDependencies[nextId]++;
+    });
+  });
+
+  const entryNodes = pipeline.agents.filter(a => remainingDependencies[a.id] === 0);
+  if (entryNodes.length === 0) throw new Error("Deadlock or missing start node");
+
+  async function executeQueue(currentNodes) {
+    if (currentNodes.length === 0) return;
+
+    const promises = currentNodes.map(async (agent) => {
+      // Execute the real system command provided by the agent parameters
+      // Default fallback runs a basic echo command if parameters are missing
+      const cmd = agent.command || 'echo';
+      const args = agent.args || [`Hello from ${agent.name}`];
+      
+      const result = await executeBashCommand(agent.name, cmd, args);
+      executionLogs[agent.id] = result;
+
+      const nextNodesToTrigger = [];
+      agent.next.forEach(nextId => {
+        remainingDependencies[nextId]--;
+        if (remainingDependencies[nextId] === 0) {
+          nextNodesToTrigger.push(agentsMap.get(nextId));
+        }
+      });
+
+      await executeQueue(nextNodesToTrigger);
+    });
+
+    await Promise.all(promises);
+  }
+
+  await executeQueue(entryNodes);
+  return executionLogs;
+}
+
+// 3. API Endpoint Definition
+app.post('/api/pipeline/run', async (req, res) => {
+  try {
+    const pipelineData = req.body;
+    
+    if (!pipelineData || !Array.isArray(pipelineData.agents)) {
+      return res.status(400).json({ error: "Invalid pipeline structure payload." });
+    }
+
+    const report = await runEngine(pipelineData);
+    res.json({ status: "pipeline_completed", runs: report });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Launch Server
+const PORT = 5000;
+app.listen(PORT, () => {
+  console.log(`🤖 bash-ai Engine Active on http://localhost:${PORT}`);
+});
+fetch('http://localhost:5000/api/pipeline/run', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(currentPipelineSchema)
+})
+.then(res => res.json())
+.then(data => updateUiConsole(data.runs));
